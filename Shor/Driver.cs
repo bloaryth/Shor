@@ -6,6 +6,7 @@ namespace Shor
 {
     using myShor;
     using System.Collections;
+    using System.Numerics;
 
     class Driver
     {
@@ -21,31 +22,44 @@ namespace Shor
             a = tmp;
         }
 
-        static int ContinuedFraction(double s)
+        static (int, int) GetFraction(ArrayList list, int ind)
         {
-            const double eps = 0.1;
+            int ns = 1;
+            int r = (int)list[--ind];
+            while (ind > 0)
+            {
+                ns = ns + (int)list[--ind] * r;
+                Swap(ref ns, ref r);
+            }
+            Swap(ref ns, ref r);
+            return (ns, r);
+        }
+
+        static int ContinuedFraction(double s, int a, int n)
+        {
+            const double eps = 1e-9;
             double ss = s;
-            Stack st = new Stack();
+            ArrayList list = new ArrayList();
             while (true)
             {
-                st.Push(((int)(s + eps)));
-                s = s - (int)(s + eps);
+                list.Add((int)s);
+                s = s - (int)(s);
                 if (s < eps)
                 {
                     break;
                 }
                 s = 1 / s;
             }
-            int ns = 1;
-            int r = (int)st.Pop();
-            while (st.Count != 0)
+            for (int i = 1; i <= list.Count; ++i)
             {
-                ns = ns + (int)st.Pop() * r;
-                Swap(ref ns, ref r);
+                (int ns, int r) = GetFraction(list, i);
+                if(Mpow(a, r, n) == 1)
+                {
+                    Console.WriteLine($"\t= {ns}/{r}");
+                    return r;
+                }
             }
-            Swap(ref ns, ref r);
-            Console.WriteLine($"\t= {ns}/{r}");
-            return r;
+            return -1; // not found
         }
 
         static int OrderFinding(int a, int n)
@@ -66,7 +80,7 @@ namespace Shor
                 s = ((double)f) / (1L << (int)t);
                 Console.WriteLine($"{f}/(2^{t})={s}");
             }
-            return ContinuedFraction(s);
+            return ContinuedFraction(s, a, n);
 
             //int r = 1;
             //int s = a % n;
@@ -115,8 +129,8 @@ namespace Shor
                     output(d, n / d);
                 }
                 int r = OrderFinding(a, n);
-                printInt("r = ", r);
-                if (r % 2 == 1)
+                printInt("r = ", r);        
+                if (r == -1 || r % 2 == 1)
                     continue;
                 printInt("a^{r/2} = ", Mpow(a, r / 2, n));
                 if (Mpow(a, r / 2, n) == n - 1)
