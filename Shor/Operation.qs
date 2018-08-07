@@ -112,8 +112,10 @@ namespace myShor {
 		body
 		{
 			let n = BitSize(N);
-			let t = 2 * n + 1;
-			//let t = 7;	// it may cost too much time with t = 2 * n + 1
+			//let t = 2 * n + 1; // normal implementation
+			// it may cost too much time with t = 2 * n + 1, 
+			// instead we use 7 to demonstrate
+			let t = 7;	
 			mutable ans = 0;
 			using(qubits = Qubit[t + n]) 
 			{
