@@ -29,7 +29,7 @@ namespace Shor
         // be converted to png or pdf
         static void w2qasm(string msg)
         {
-            using (FileStream fs = new FileStream("test.qasm", FileMode.Create, FileAccess.Write))
+            using (FileStream fs = new FileStream("circuit.qasm", FileMode.Create, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {

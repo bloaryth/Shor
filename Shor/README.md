@@ -2,6 +2,8 @@
 
 First make sure you can run C# and Q# program on your computer(.NET).
 
+Move <Driver.cs>, <Operation.qs>, <Shor.csproj> into "qasm2circ".
+
 Put your input into <n.txt>.
 
 Output of computing process is in <computing.log>, with the answer in the last line.
@@ -35,6 +37,8 @@ Run <auto_wo.vbs>, and <circuit.pdf> cannot be generated.
 Run <auto.vbs>, and if there is a quantum circuit, <circuit.pdf> will be made to show the circuit.
 
 ### Designing Details
+
+The code is <Driver.cs>, <Operation.qs>.
 
 The code has three parts -- Q# code to do order finding, some C# code to do continued fraction and other classical part in Shor Algorithm, bash and some C# code to output the quantum circuits.
 
