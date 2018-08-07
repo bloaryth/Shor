@@ -197,7 +197,7 @@ namespace Shor
         static void output(int a, int b)
         {
             Console.WriteLine($"{a * b} = {a} * {b}");
-            Console.WriteLine($"Press any key to continue ...");
+            //Console.WriteLine($"Press any key to continue ...");
             Environment.Exit(0);
         }
 
