@@ -1,4 +1,4 @@
-﻿// Created by Jiuqin Zhou and Yaoyao Ding.
+﻿// Created by Yaoyao Ding, Jiuqin Zhou and Jie Xie.
 // Licensed under the MIT License.
 
 using System;
@@ -25,67 +25,84 @@ namespace Shor
             a = tmp;
         }
 
-        static void w2qasm(string msg){
-            using (FileStream fs = new FileStream("test.qasm", FileMode.Create, FileAccess.Write)){
-                using (StreamWriter sw = new StreamWriter(fs)){
+        static void w2qasm(string msg)
+        {
+            using (FileStream fs = new FileStream("test.qasm", FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
                     sw.WriteLine(msg);
                 }
-           }
-        }      
+            }
+        }
 
-       static void CircuitMaking(int a,int n){
-            string str="";
-            int k=0;
-            int n1=n;
-            while (n1>0){
+        static void CircuitMaking(int a, int n)
+        {
+            string str = "";
+            int k = 0;
+            int n1 = n;
+            while (n1 > 0)
+            {
                 ++k;
-                n1/=2;
+                n1 /= 2;
             }
-            int k2=2*k+1;
-            int temp=1;
-            string tempstr="";
-            for (int i=0;i<k2;++i){
-                if (temp==1) tempstr="\'U\'\n";
-                else tempstr="\'U^{"+temp.ToString()+"}\'\n";
-                temp*=2;
-                str+="\tdefbox CU"+i.ToString()+","+(k+1).ToString()+",1,"+tempstr;
+            int k2 = 2 * k + 1;
+            int temp = 1;
+            string tempstr = "";
+            for (int i = 0; i < k2; ++i)
+            {
+                if (temp == 1) tempstr = "\'U\'\n";
+                else tempstr = "\'U^{" + temp.ToString() + "}\'\n";
+                temp *= 2;
+                str += "\tdefbox CU" + i.ToString() + "," + (k + 1).ToString() + ",1," + tempstr;
             }
-            for (int i=2;i<=k2;++i){
-                str+="\tdef CR"+i.ToString()+",1,"+"\'R"+i.ToString()+"\'\n";
+            for (int i = 2; i <= k2; ++i)
+            {
+                str += "\tdef CR" + i.ToString() + ",1," + "\'R" + i.ToString() + "\'\n";
             }
-            for (int i=0;i<k2;++i){
-                str+="\tqubit i"+i.ToString()+",0\n";
+            for (int i = 0; i < k2; ++i)
+            {
+                str += "\tqubit i" + i.ToString() + ",0\n";
             }
-            for (int i=0;i<k;++i){
-                str+="\tqubit j"+i.ToString()+",0\n";
+            for (int i = 0; i < k; ++i)
+            {
+                str += "\tqubit j" + i.ToString() + ",0\n";
             }
-            for (int i=0;i<k2;++i){
-                str+="\th i"+i.ToString()+"\n";
+            for (int i = 0; i < k2; ++i)
+            {
+                str += "\th i" + i.ToString() + "\n";
             }
-            str+="\tX j0\n";
-            for (int i=0;i<k2;++i){
-                str+="\tCU"+i.ToString()+" i"+(k2-i-1).ToString();
-                for (int j=0;j<k;++j){
-                    str+=",j"+j.ToString();
-                }         
-                str+="\n";     
-                for (int j=k2-i;j<k2;++j){
-                    str+="\tnop i"+j.ToString()+"\n";
+            str += "\tX j0\n";
+            for (int i = 0; i < k2; ++i)
+            {
+                str += "\tCU" + i.ToString() + " i" + (k2 - i - 1).ToString();
+                for (int j = 0; j < k; ++j)
+                {
+                    str += ",j" + j.ToString();
+                }
+                str += "\n";
+                for (int j = k2 - i; j < k2; ++j)
+                {
+                    str += "\tnop i" + j.ToString() + "\n";
                 }
             }
-            for (int i=0;i<k2;++i){
-                for (int j=0;j<i;++j){
-                    int delta=i-j+1;
-                    str+="\tCR"+delta.ToString()+" i"+j.ToString()+",i"+i.ToString()+"\n";
+            for (int i = 0; i < k2; ++i)
+            {
+                for (int j = 0; j < i; ++j)
+                {
+                    int delta = i - j + 1;
+                    str += "\tCR" + delta.ToString() + " i" + j.ToString() + ",i" + i.ToString() + "\n";
                 }
-                str+="\th i"+i.ToString()+"\n";
-                for (int j=0;j<i;++j){
-                    for (int l=0;l<i-j;++l)
-                        str+="\tnop i"+j.ToString()+"\n";
+                str += "\th i" + i.ToString() + "\n";
+                for (int j = 0; j < i; ++j)
+                {
+                    for (int l = 0; l < i - j; ++l)
+                        str += "\tnop i" + j.ToString() + "\n";
                 }
             }
-            for (int i=0;i<k2;++i){
-                str+="\tmeasure i"+i.ToString()+"\n";
+            for (int i = 0; i < k2; ++i)
+            {
+                str += "\tmeasure i" + i.ToString() + "\n";
             }
             w2qasm(str);
         }
@@ -116,12 +133,12 @@ namespace Shor
             Swap(ref ns, ref r);
             Console.WriteLine($"\t= {ns}/{r}");
             return r;
-        } 
+        }
 
         static int OrderFinding(int a, int n)
         {
             double s;
-            CircuitMaking(a,n);
+            CircuitMaking(a, n);
             using (var sim = new QuantumSimulator())
             {
                 // quantum order finding
@@ -183,7 +200,7 @@ namespace Shor
             Random randomObject = new Random();
             while (true)
             {
-                int a = randomObject.Next(2, n-1);
+                int a = randomObject.Next(2, n - 1);
                 printInt("a =", a);
                 int d = Gcd(a, n);
                 if (d != 1)
@@ -193,10 +210,14 @@ namespace Shor
                 int r = OrderFinding(a, n);
                 printInt("r =", r);
                 if (r % 2 == 1)
+                {
                     continue;
+                }
                 printInt("a^{r/2} =", Mpow(a, r / 2, n));
                 if (Mpow(a, r / 2, n) == n - 1)
+                {
                     continue;
+                }
 
                 int f = Math.Max(Gcd(Mpow(a, r / 2, n) + 1, n), Gcd(Mpow(a, r / 2, n) - 1, n));
                 printInt("f =", f);

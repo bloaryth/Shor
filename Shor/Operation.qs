@@ -1,4 +1,4 @@
-﻿// Created by Jiuqin Zhou and Yaoyao Ding.
+﻿// Created by Yaoyao Ding, Jiuqin Zhou and Jie Xie.
 // Licensed under the MIT License.
 
 namespace myShor {
@@ -113,7 +113,7 @@ namespace myShor {
 		{
 			let n = BitSize(N);
 			let t = 2 * n + 1;
-			//let t = 7;
+			//let t = 7;	// it may cost too much time with t = 2 * n + 1
 			mutable ans = 0;
 			using(qubits = Qubit[t + n]) 
 			{
