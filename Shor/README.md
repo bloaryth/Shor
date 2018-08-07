@@ -1,6 +1,38 @@
-### How to run
+### How to run - Under Windows
 
-Run 
+First make sure you can run C# and Q# program on your computer(.NET).
+
+Put your input into <n.txt>.
+
+Output of computing process is in <computing.log>, with the answer in the last line.
+
+Output of quantum circuit(if there is) with qasm format is in <circuit.qasm>.
+
+For our program of an optimization, we may not have a quantum circuit.
+
+#### REQUIREMENTS
+
+##### Windows
+
+- WSL(Windows Subsystem for Linux)
+
+##### WSL
+
+- csh(tcsh)
+- latex2e with xypic (included in tetex)
+- python version 2.3 or greater
+- ghostscript (and epstopdf)
+- netpbm (for creation of png files)
+
+#### RUN
+
+##### Without requirements
+
+Run auto_wo.vbs
+
+##### With requirements
+
+Run auto.vbs, and if there is a quantum circuit, <circuit.pdf> will be made to show the circuit.
 
 ### Designing Details
 
