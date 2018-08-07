@@ -28,11 +28,11 @@ For our program of an optimization, we may not have a quantum circuit.
 
 ##### Without requirements
 
-Run auto_wo.vbs
+Run <auto_wo.vbs>, and <circuit.pdf> cannot be generated.
 
 ##### With requirements
 
-Run auto.vbs, and if there is a quantum circuit, <circuit.pdf> will be made to show the circuit.
+Run <auto.vbs>, and if there is a quantum circuit, <circuit.pdf> will be made to show the circuit.
 
 ### Designing Details
 
