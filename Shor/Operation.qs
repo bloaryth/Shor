@@ -112,7 +112,7 @@ namespace myShor {
 		body
 		{
 			let n = BitSize(N);
-			//let t = 2 * n + 1; // normal implementation
+			//let t = 2 * n + 1; // standard implementation
 			// it may cost too much time with t = 2 * n + 1, 
 			// instead we use 7 to demonstrate
 			let t = 7;	
