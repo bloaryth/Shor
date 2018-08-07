@@ -114,7 +114,8 @@ namespace myShor {
 			let n = BitSize(N);
 			//let t = 2 * n + 1; // standard implementation
 			// it may cost too much time with t = 2 * n + 1, 
-			// instead we use 7 to demonstrate
+			// instead we use t = 7 to demonstrate, but still 
+			// t = 2 * n + 1 in the quantum circuits we output
 			let t = 7;	
 			mutable ans = 0;
 			using(qubits = Qubit[t + n]) 
