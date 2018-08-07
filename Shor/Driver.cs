@@ -25,6 +25,8 @@ namespace Shor
             a = tmp;
         }
 
+        // output the quantum circuits to .qasm file, which can 
+        // be converted to png or pdf
         static void w2qasm(string msg)
         {
             using (FileStream fs = new FileStream("test.qasm", FileMode.Create, FileAccess.Write))
@@ -36,6 +38,7 @@ namespace Shor
             }
         }
 
+        // generate the quantum circuits
         static void CircuitMaking(int a, int n)
         {
             string str = "";
@@ -107,41 +110,53 @@ namespace Shor
             w2qasm(str);
         }
 
-        static int ContinuedFraction(double s)
+        static (int, int) GetFraction(ArrayList list, int ind)
         {
-            const double eps = 0.1;
+            int ns = 1;
+            int r = (int)list[--ind];
+            while (ind > 0)
+            {
+                ns = ns + (int)list[--ind] * r;
+                Swap(ref ns, ref r);
+            }
+            Swap(ref ns, ref r);
+            return (ns, r);
+        }
+
+        static int ContinuedFraction(double s, int a, int n)
+        {
+            const double eps = 1e-9;
             double ss = s;
-            Stack st = new Stack();
+            ArrayList list = new ArrayList();
             while (true)
             {
-                st.Push(((int)(s + eps)));
-                s = s - (int)(s + eps);
+                list.Add((int)s);
+                s = s - (int)(s);
                 if (s < eps)
                 {
                     break;
                 }
                 s = 1 / s;
             }
-            int ns = 1;
-            int r = (int)st.Pop();
-            while (st.Count != 0)
+            for (int i = 1; i <= list.Count; ++i)
             {
-                ns = ns + (int)st.Pop() * r;
-                Swap(ref ns, ref r);
+                (int ns, int r) = GetFraction(list, i);
+                if (Mpow(a, r, n) == 1)
+                {
+                    Console.WriteLine($"\t= {ns}/{r}");
+                    return r;
+                }
             }
-
-            Swap(ref ns, ref r);
-            Console.WriteLine($"\t= {ns}/{r}");
-            return r;
+            return -1; // not found
         }
 
         static int OrderFinding(int a, int n)
         {
+            // quantum order finding
             double s;
             CircuitMaking(a, n);
             using (var sim = new QuantumSimulator())
             {
-                // quantum order finding
                 long f = 0;
                 long t = 0;
                 while (f == 0)
@@ -155,7 +170,7 @@ namespace Shor
                 s = ((double)f) / (1L << (int)t);
                 Console.WriteLine($"{f}/(2^{t})={s}");
             }
-            return ContinuedFraction(s);
+            return ContinuedFraction(s, a, n);
 
             // classic order finding
             //int r = 1;
@@ -183,7 +198,6 @@ namespace Shor
         {
             Console.WriteLine($"{a * b} = {a} * {b}");
             Console.WriteLine($"Press any key to continue ...");
-            Console.ReadKey();
             Environment.Exit(0);
         }
 
