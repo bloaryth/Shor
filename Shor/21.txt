@@ -1,0 +1,25 @@
+Please input the integer:
+21
+
+A new round started.
+Let x = 2
+43/(2^7)=0.3359375
+No r satifies a^r=1 mod N.
+
+A new round started.
+Let x = 4
+Got s = 0. Try Again ...
+Got s = 0. Try Again ...
+86/(2^7)=0.671875
+        = 2/3
+r = 3, but r is odd.
+
+A new round started.
+Let x = 8
+Got s = 0. Try Again ...
+Got s = 0. Try Again ...
+64/(2^7)=0.5
+        = 1/2
+r = 2, x^(r/2) = 8.
+One factor f = 7
+Final answer is 21 = 7 * 3

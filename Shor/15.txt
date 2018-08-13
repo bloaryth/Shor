@@ -1,0 +1,10 @@
+Please input the integer:
+15
+
+A new round started.
+Let x = 2
+96/(2^7)=0.75
+        = 3/4
+r = 4, x^(r/2) = 4.
+One factor f = 5
+Final answer is 15 = 5 * 3

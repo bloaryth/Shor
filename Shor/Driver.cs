@@ -164,7 +164,7 @@ namespace Shor
                     (f, t) = OrderFindingPhase.Run(sim, a, n).Result;
                     if (f == 0)
                     {
-                        Console.WriteLine($"Got s == 0. Try Again ...");
+                        Console.WriteLine($"Got s = 0. Try Again ...");
                     }
                 }
                 s = ((double)f) / (1L << (int)t);
@@ -196,7 +196,7 @@ namespace Shor
 
         static void output(int a, int b)
         {
-            Console.WriteLine($"{a * b} = {a} * {b}");
+            Console.WriteLine($"Final answer is {a * b} = {a} * {b}");
             //Console.WriteLine($"Press any key to continue ...");
             Environment.Exit(0);
         }
@@ -212,29 +212,37 @@ namespace Shor
             string input = Console.ReadLine();
             int n = Convert.ToInt32(input);
             Random randomObject = new Random();
+            Console.WriteLine("");
             while (true)
             {
+                Console.WriteLine("A new round started.");
                 int a = randomObject.Next(2, n - 1);
-                printInt("a =", a);
+                printInt("Let x =", a);
                 int d = Gcd(a, n);
                 if (d != 1)
                 {
                     output(d, n / d);
                 }
                 int r = OrderFinding(a, n);
-                printInt("r =", r);
-                if (r % 2 == 1)
+                if (r == -1)
                 {
+                    Console.WriteLine($"No r satifies x^r=1 mod N.\n");
                     continue;
                 }
-                printInt("a^{r/2} =", Mpow(a, r / 2, n));
+                if (r % 2 == 1)
+                {
+                    Console.WriteLine($"r = {r}, but r is odd.\n");
+                    continue;
+                }
+                Console.WriteLine($"r = {r}, x^(r/2) = {Mpow(a, r / 2, n)}.");
                 if (Mpow(a, r / 2, n) == n - 1)
                 {
+                    Console.WriteLine($"x^(r/2) mod N is N-1.\n");
                     continue;
                 }
 
                 int f = Math.Max(Gcd(Mpow(a, r / 2, n) + 1, n), Gcd(Mpow(a, r / 2, n) - 1, n));
-                printInt("f =", f);
+                printInt("One factor f =", f);
                 output(f, n / f);
             }
         }
